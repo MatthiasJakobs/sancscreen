@@ -1,0 +1,1 @@
+Indicator_value,Number_abnormalities,hidden_feature_3,City_hit,Account_hit,Name_hit,Other_hit,hidden_feature_1,Country_hit,Address_hit,Sanction_hit,hidden_feature_2,Bank_hits,Account_Owner_hit,Text_hits,Specific_Country_hit,Unique_hits,Different_hits,Number_countries
