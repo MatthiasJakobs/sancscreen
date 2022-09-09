@@ -24,8 +24,9 @@ from attributions import DIY_EG
 def plot_boxplots(all_attr, gt_attributions, all_labels, names):
     shadings = ["sandybrown", "violet", "salmon", "lightblue", "palegreen", "lightgrey"]
     edges = ["saddlebrown", "purple", "darkred", "blue", "green", "gray"]
-    fig, ax = plt.subplots(3, 2, sharey=True, figsize=(10, 10))
-    for row, (metric_name, metric_fn) in enumerate(zip(["Spearmans Footrule", "Cosine distance", "Hamming distance"], [spearman_footrule, scosine, shamming])):
+    plt.rcParams['font.size'] = '12'
+    fig, ax = plt.subplots(2, 3, sharey=True, figsize=(15, 6))
+    for column, (metric_name, metric_fn) in enumerate(zip(["Spearmans Footrule", "Cosine distance", "Hamming distance"], [spearman_footrule, scosine, shamming])):
         for model in range(len(all_attr)):
             attr = all_attr[model]
             metric_results = np.zeros((len(attr), len(attr[0])))
@@ -42,13 +43,14 @@ def plot_boxplots(all_attr, gt_attributions, all_labels, names):
                 ms = dict(color="black")
                 caps = dict(color=edges[j])
 
-                ax[row, model].boxplot(metric_results[j], positions=[i], patch_artist=True, widths=0.25, flierprops=flier, boxprops=boxes, whiskerprops=whiskers, medianprops=ms, capprops=caps)
+                ax[model, column].boxplot(metric_results[j], positions=[i], patch_artist=True, widths=0.25, flierprops=flier, boxprops=boxes, whiskerprops=whiskers, medianprops=ms, capprops=caps)
 
-            if row == 0:
-                ax[row, model].set_title(f"{names[model]}")
-            ax[row, model].set_ylim(0, 1)
-            ax[row, model].set_ylabel(metric_name)
-            ax[row, model].set_xticklabels(np.array(all_labels[model])[sorted], rotation = 12)
+            #if column == 0:
+                #ax[model, column].set_title(f"{names[model]}")
+            ax[model, column].set_ylabel(metric_name)
+            ax[model, column].set_ylim(0, 1)
+            ax[model, column].set_title(f"{names[model]}")
+            ax[model, column].set_xticklabels(np.array(all_labels[model])[sorted], rotation=20)
 
     plt.tight_layout()
     plt.savefig(f"plots/exp2.pdf")

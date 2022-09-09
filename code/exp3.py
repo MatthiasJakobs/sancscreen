@@ -11,8 +11,8 @@ from exp2 import run_neural_network, run_random_forest
 def plot_zero_bars(all_attr, baseline, path, all_labels, names):
 
     #plt.rcParams['font.size'] = '11'
-    plt.rcParams.update({'font.size': 12})
-    fig, ax = plt.subplots(1, 2, sharey=True, figsize=(10, 3.5))
+    #plt.rcParams.update({'font.size': 12})
+    fig, ax = plt.subplots(2, 1, sharey=True, figsize=(4.5, 5))
     #fig, ax = plt.subplots(1, 2, sharey=True, figsize=(12, 4))
 
     width = 0.8

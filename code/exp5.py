@@ -63,7 +63,7 @@ if __name__ == "__main__":
 
     norm = matplotlib.colors.Normalize(vmin=-1, vmax=1)
 
-    fig, ax = plt.subplots(1, 1, figsize=(9, 6))
+    fig, ax = plt.subplots(1, 1, figsize=(5.3, 3.5))
     im = ax.imshow(heatmap, cmap=plt.get_cmap("bwr"), norm=norm)
     ax.axhline(4.5, color="black")
     ax.set_yticks(np.arange(len(y_labels)))

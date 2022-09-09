@@ -21,7 +21,7 @@ def distribution_of_binary_features():
 
     readable_feature_names = ["\n".join(name.split("_")) for name in np.array(d.feature_names)[d.binary_features]]
 
-    fig, axs = plt.subplots(1, 1, figsize=(9.5, 4))
+    fig, axs = plt.subplots(1, 1, figsize=(9.5, 3))
     zeroes = distribution[:, 0]
     ones = distribution[:, 1]
 
@@ -45,7 +45,7 @@ def distribution_of_numerical_features():
     # Dirty hack: For some reason, the first value is not used for x axis label
     readable_feature_names = [""] + ["\n".join(name.split("_")) for name in np.array(d.feature_names)[d.numeric_features]]
 
-    fig, axs = plt.subplots(1, 1, figsize=(8, 3))
+    fig, axs = plt.subplots(1, 1, figsize=(4.5, 3))
     axs.bar(np.arange(len(d.numeric_features)), unique_counts, width=0.5, color=colors[0])
     axs.set_yscale("log")
     axs.set_ylim(0, 1000)
@@ -58,7 +58,7 @@ def distribution_of_numerical_features():
 
 def distribution_of_expert_annotations():
     expert_annotations = d.annot.numpy()
-    fig, axs = plt.subplots(1, 1, figsize=(8, 5))
+    fig, axs = plt.subplots(1, 1, figsize=(4, 4))
 
     parts = axs.violinplot(expert_annotations, showmedians=True)
     for pc in parts['bodies']:
