@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from metrics import generate_mean_ranking, spearman_footrule, shamming, scosine
+from metrics import spearman_footrule, shamming, scosine
 from datasets import load_sancscreen
 from parameters import sancscreen_config
 from scipy.stats import wilcoxon

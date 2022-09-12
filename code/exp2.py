@@ -1,8 +1,6 @@
 # Compare different explainability methods on the new dataset
 
-from operator import gt
 import torch
-import pandas as pd
 import numpy as np
 import shap
 import lime
@@ -13,9 +11,8 @@ import matplotlib.pyplot as plt
 from captum.attr import IntegratedGradients
 
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import roc_auc_score
 
-from metrics import L1, L2, generate_mean_ranking, spearman_footrule, shamming, scosine, seuclidean
+from metrics import spearman_footrule, shamming, scosine
 from datasets import load_sancscreen
 from model import SancScreenNet
 from parameters import sancscreen_config
@@ -25,7 +22,7 @@ def plot_boxplots(all_attr, gt_attributions, all_labels, names):
     shadings = ["sandybrown", "violet", "salmon", "lightblue", "palegreen", "lightgrey"]
     edges = ["saddlebrown", "purple", "darkred", "blue", "green", "gray"]
     plt.rcParams['font.size'] = '12'
-    fig, ax = plt.subplots(2, 3, sharey=True, figsize=(15, 6))
+    _, ax = plt.subplots(2, 3, sharey=True, figsize=(15, 6))
     for column, (metric_name, metric_fn) in enumerate(zip(["Spearmans Footrule", "Cosine distance", "Hamming distance"], [spearman_footrule, scosine, shamming])):
         for model in range(len(all_attr)):
             attr = all_attr[model]
@@ -37,20 +34,21 @@ def plot_boxplots(all_attr, gt_attributions, all_labels, names):
             sorted = np.argsort(np.median(metric_results, axis=1))
             for i in range(len(sorted)):
                 j = sorted[i]
-                flier = dict(marker="+", alpha=0.5)
-                boxes = dict(color=edges[j], facecolor=shadings[j])
-                whiskers = dict(color=edges[j])
-                ms = dict(color="black")
-                caps = dict(color=edges[j])
+                parts = ax[model, column].violinplot(metric_results[j], positions=[i], showmedians=True)
+                for partname in ('cbars','cmins','cmaxes'):
+                    vp = parts[partname]
+                    vp.set_color(edges[j])
 
-                ax[model, column].boxplot(metric_results[j], positions=[i], patch_artist=True, widths=0.25, flierprops=flier, boxprops=boxes, whiskerprops=whiskers, medianprops=ms, capprops=caps)
+                parts['cmedians'].set_color('black')
 
-            #if column == 0:
-                #ax[model, column].set_title(f"{names[model]}")
+                for pc in parts['bodies']:
+                    pc.set_color(shadings[j])
+
             ax[model, column].set_ylabel(metric_name)
             ax[model, column].set_ylim(0, 1)
             ax[model, column].set_title(f"{names[model]}")
-            ax[model, column].set_xticklabels(np.array(all_labels[model])[sorted], rotation=20)
+            ax[model, column].set_xticks(np.arange(len(all_labels[model])))
+            ax[model, column].set_xticklabels(np.array(all_labels[model])[sorted].tolist(), rotation=20)
 
     plt.tight_layout()
     plt.savefig(f"plots/exp2.pdf")

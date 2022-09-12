@@ -111,29 +111,3 @@ class DIY_EG(AttributionMethod):
             attributions = torch.mean(torch.cat(gradient_collector, axis=0), axis=0)
 
         return attributions
-
-def _gradient_input(model, x, label, keep_gradients=False):
-    # Assume: x.shape[0] ^= batch_size
-    gradients = []
-    was_training = model.training
-    model.eval()
-
-    if not x.requires_grad:
-        x.requires_grad = True
-
-    for i, x_i in enumerate(x):
-        x_i = x_i.unsqueeze(0)
-
-        output = torch.exp(model(x_i))
-        output = _get_output_per_class(output, label[i])
-        grad = torch.autograd.grad(output, x_i)[0]
-
-        gradients.append(grad)
-
-        if not keep_gradients:
-            model.zero_grad()
-
-    if was_training:
-        model.train()
-
-    return torch.cat(gradients, axis=0)

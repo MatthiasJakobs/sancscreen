@@ -6,10 +6,9 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 import numpy as np
 import pandas as pd
 
-from metrics import spearman_footrule, shamming, scosine
 from datasets import load_sancscreen
 from parameters import sancscreen_config
-from scipy.stats import wilcoxon, pearsonr
+from scipy.stats import pearsonr
 
 from exp2 import run_random_forest, run_neural_network
 
@@ -63,7 +62,7 @@ if __name__ == "__main__":
 
     norm = matplotlib.colors.Normalize(vmin=-1, vmax=1)
 
-    fig, ax = plt.subplots(1, 1, figsize=(5.3, 3.5))
+    fig, ax = plt.subplots(1, 1, figsize=(7.3, 5))
     im = ax.imshow(heatmap, cmap=plt.get_cmap("bwr"), norm=norm)
     ax.axhline(4.5, color="black")
     ax.set_yticks(np.arange(len(y_labels)))

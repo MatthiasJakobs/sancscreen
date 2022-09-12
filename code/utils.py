@@ -1,5 +1,4 @@
 import torch
-import pandas as pd
 import numpy as np
 
 def to_torch(a):

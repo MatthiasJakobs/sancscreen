@@ -1,12 +1,10 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import torch.nn.functional as F
 import numpy as np
-import matplotlib.pyplot as plt
 import copy
 
-from sklearn.metrics import roc_auc_score, roc_curve
+from sklearn.metrics import roc_auc_score
 
 class SancScreenNet(nn.Module):
     def __init__(self, config):
