@@ -4,7 +4,7 @@ import torch
 from os.path import join
 from utils import objectview
 
-def load_sancscreen(root_path=None):
+def load_sancscreen(root_path=None, simplify=False):
     if root_path is None:
         root_path = "data/"
     else:
@@ -19,6 +19,11 @@ def load_sancscreen(root_path=None):
     e_x = np.load(f"data/{ds_name}_e_x.npy")
     e_y = np.load(f"data/{ds_name}_e_y.npy")
     annot = np.load(f"data/{ds_name}_annot.npy")
+
+    if simplify:
+        annot[annot > 0] = 1
+        annot[annot < 0] = -1
+    
     with open("data/feature_names.txt", "r") as f:
         feature_names = f.readline().split(",")
 
